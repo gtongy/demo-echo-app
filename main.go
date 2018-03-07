@@ -28,30 +28,14 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	migrate(db)
-
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
 	// Routes
 	e.GET("/tasks", handlers.GetTasks(db))
+	e.GET("/users", handlers.GetUsers(db))
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
-}
-
-func migrate(db *sql.DB) {
-	sql := `
-	CREATE TABLE IF NOT EXISTS tasks(
-		id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-		name VARCHAR(255) NOT NULL
-	);
-	`
-
-	_, err := db.Exec(sql)
-	// Exit if something goes wrong with our SQL statement above
-	if err != nil {
-		fmt.Println(err)
-	}
 }
