@@ -3,6 +3,9 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"html/template"
+	"io"
+	"net/http"
 
 	"github.com/BurntSushi/toml"
 	_ "github.com/go-sql-driver/mysql"
@@ -13,6 +16,14 @@ import (
 
 type Config struct {
 	DataSource string `toml:"dataSource"`
+}
+
+type TemplateRenderer struct {
+	templates *template.Template
+}
+
+func (t *TemplateRenderer) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+	return t.templates.ExecuteTemplate(w, name, data)
 }
 
 func main() {
@@ -28,6 +39,12 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+
+	renderer := &TemplateRenderer{
+		templates: template.Must(template.ParseGlob("templates/*.tpl")),
+	}
+	e.Renderer = renderer
+
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
@@ -35,6 +52,12 @@ func main() {
 	// Routes
 	e.GET("/tasks", handlers.GetTasks(db))
 	e.GET("/users", handlers.GetUsers(db))
+	// Named route "foobar"
+	e.GET("/", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "index.tpl", map[string]interface{}{
+			"name": "Dolly!",
+		})
+	})
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
