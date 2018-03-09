@@ -1,0 +1,7 @@
+{
+    "files.associations": 
+    {
+        "*.tpl": "html",
+        "*.master": "html"
+    }
+}
