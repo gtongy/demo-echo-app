@@ -2,3 +2,4 @@ vendor/
 config.toml
 mysql/data/
 redis/data/
+.vscode/
