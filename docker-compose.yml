@@ -1,0 +1,30 @@
+version: '3'
+services:
+  app:
+    build: ./web
+    container_name: app
+    ports:
+      - "8080:8080"
+    command: go run main.go
+    links:
+      - redis
+      - mysql
+  mysql:
+    build: ./mysql
+    container_name: mysql
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/init/migration.sh:/migration.sh
+    ports:
+      - "13306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+  redis:
+    build: ./redis
+    container_name: redis
+    volumes:
+      - ./redis/data:/data
+    ports: 
+      - "6379:6379"
+    command: redis-server --appendonly yes
+  
