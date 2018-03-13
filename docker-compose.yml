@@ -14,13 +14,11 @@ services:
     container_name: mysql
     volumes:
       - ./mysql/data:/var/lib/mysql
+      - ./mysql/init/migration.sh:/migration.sh
     ports:
       - "13306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=dev
-      - MYSQL_DATABASE=test_db
-      - MYSQL_USER=dev
-      - MYSQL_PASSWORD=dev
+      - MYSQL_ROOT_PASSWORD=root
   redis:
     build: ./redis
     container_name: redis
