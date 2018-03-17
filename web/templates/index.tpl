@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>demo app by echo</title>
-</head>
-<body>
-    <div>
-        <input type="text"> {{index . "name"}}
-    </div>
-</body>
-</html>
+{{define "content"}}
+{{template "header" .}}
+<div>
+    <form action="/auth" method="post">
+        <input type="text" name="user_name">
+        <input type="text" name="email">
+        <input type="password" name="password">
+    </form>
+</div>
+{{template "footer" .}}
+{{end}}
