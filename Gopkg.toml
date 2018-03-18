@@ -37,10 +37,6 @@
   name = "github.com/labstack/echo"
   version = "3.2.6"
 
-[[constraint]]
-  name = "github.com/gtongy/demo-echo-app"
-  branch = "master"
-
 [prune]
   go-tests = true
   unused-packages = true

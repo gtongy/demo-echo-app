@@ -6,7 +6,7 @@ services:
     volumes:
       - ./:/go/src/github.com/gtongy/demo-echo-app/
     ports:
-      - "8080:1323"
+      - "1323:1323"
     command: go run main.go
     links:
       - redis
@@ -18,7 +18,7 @@ services:
       - ./mysql/data:/var/lib/mysql
       - ./mysql/init/migration.sh:/migration.sh
     ports:
-      - "13306:3306"
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
   redis:
