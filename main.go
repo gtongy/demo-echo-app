@@ -48,7 +48,9 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/tasks", handlers.GetTasks(db))
+
 	e.GET("/login", handlers.Login)
+	e.GET("/register", handlers.Register)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
