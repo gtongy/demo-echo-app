@@ -47,6 +47,8 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	e.Static("/css", "./assets/css")
+
 	e.GET("/tasks", handlers.GetTasks(db))
 
 	e.GET("/login", handlers.Login)
