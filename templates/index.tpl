@@ -1,11 +1,7 @@
 {{define "content"}}
 {{template "header" .}}
 <div>
-    <form action="/auth" method="post">
-        <input type="text" name="user_name">
-        <input type="text" name="email">
-        <input type="password" name="password">
-    </form>
+    <p>top page</p>
 </div>
 {{template "footer" .}}
 {{end}}
