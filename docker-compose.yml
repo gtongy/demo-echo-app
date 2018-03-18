@@ -1,8 +1,10 @@
 version: '3'
 services:
   app:
-    build: ./web
+    build: .
     container_name: app
+    volumes:
+      - ./:/go/src/github.com/gtongy/demo-echo-app/
     ports:
       - "8080:1323"
     command: go run main.go

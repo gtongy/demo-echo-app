@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"net/http"
+
+	"github.com/gtongy/demo-echo-app/handlers"
 
 	"github.com/BurntSushi/toml"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/gtongy/demo-echo-app/handlers"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
