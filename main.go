@@ -48,7 +48,16 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/tasks", handlers.GetTasks(db))
+<<<<<<< HEAD:main.go
 	e.GET("/login", handlers.Login)
+=======
+	e.GET("/users", handlers.GetUsers(db))
+	e.GET("/", func(c echo.Context) error {
+		return c.Render(http.StatusOK, "content", map[string]interface{}{
+			"name": "Dolly!",
+		})
+	})
+>>>>>>> develop:web/main.go
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
