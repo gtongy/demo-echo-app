@@ -4,20 +4,18 @@ import (
 	"database/sql"
 )
 
-// User is a struct containing User data
 type User struct {
-	ID       int    `json:"id"`
-	Name     string `json:"name"`
+	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-// UserCollection is collection of Users
 type UserCollection struct {
-	Users []User `json:"items"`
+	users []User `json:"items"`
 }
 
-// GetUsers from the DB
-func GetUsers(db *sql.DB) UserCollection {
+// Getusers from the DB
+func (u *User) Create(db *sql.DB) UserCollection {
+
 	sql := "SELECT * FROM users"
 	rows, err := db.Query(sql)
 	if err != nil {
@@ -27,12 +25,12 @@ func GetUsers(db *sql.DB) UserCollection {
 
 	result := UserCollection{}
 	for rows.Next() {
-		User := User{}
-		scanErr := rows.Scan(&User.ID, &User.Name, &User.Password)
+		user := User{}
+		scanErr := rows.Scan(&user.Email, &user.Password)
 		if scanErr != nil {
 			panic(scanErr)
 		}
-		result.Users = append(result.Users, User)
+		result.users = append(result.users, user)
 	}
 	return result
 }
