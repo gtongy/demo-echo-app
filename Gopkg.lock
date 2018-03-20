@@ -20,6 +20,21 @@
   version = "v1.3"
 
 [[projects]]
+  name = "github.com/jinzhu/gorm"
+  packages = [
+    ".",
+    "dialects/mysql"
+  ]
+  revision = "6ed508ec6a4ecb3531899a69cbc746ccf65a4166"
+  version = "v1.9.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/jinzhu/inflection"
+  packages = ["."]
+  revision = "04140366298a54a039076d798123ffa108fff46c"
+
+[[projects]]
   name = "github.com/labstack/echo"
   packages = [
     ".",
@@ -81,6 +96,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c78e7752fdbb45ae909fdc9c997788fc467b90e52e633de8cfcd991f3e6f73df"
+  inputs-digest = "0133ffd222623a66ade6333220fee057f55cb3062e30f93ab5856a6d9a0316b6"
   solver-name = "gps-cdcl"
   solver-version = 1
