@@ -1,12 +1,10 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gtongy/demo-echo-app/models"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/gtongy/demo-echo-app/mysql"
 	"github.com/labstack/echo"
 )
 
@@ -27,18 +25,18 @@ func (u *user) Register(c echo.Context) error {
 func (u *user) Create(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
+
 	user := &models.User{
 		Email:    email,
 		Password: password,
 	}
+
 	var err = c.Bind(user)
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
-	db, err := gorm.Open("mysql", "root:root@tcp(mysql:3306)/test_database")
-	if err != nil {
-		panic(err)
-	}
+
+	db := mysql.GetDB()
 	defer db.Close()
 	db.Create(&user)
 	return c.Redirect(http.StatusMovedPermanently, "/login")
