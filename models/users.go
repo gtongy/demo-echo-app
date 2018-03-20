@@ -1,9 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -16,4 +17,12 @@ type User struct {
 
 type UserCollection struct {
 	users []User
+}
+
+func PasswordHash(password string) string {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return string(hash)
 }

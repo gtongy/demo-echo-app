@@ -24,15 +24,12 @@ func (u *user) Register(c echo.Context) error {
 
 func (u *user) Create(c echo.Context) error {
 	email := c.FormValue("email")
-	password := c.FormValue("password")
-
+	password := models.PasswordHash(c.FormValue("password"))
 	user := &models.User{
 		Email:    email,
 		Password: password,
 	}
-
-	var err = c.Bind(user)
-	if err != nil {
+	if err := c.Bind(user); err != nil {
 		return err
 	}
 

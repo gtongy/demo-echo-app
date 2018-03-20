@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
-`name` varchar(32) NOT NULL DEFAULT '',
 `password` char(64) NOT NULL,
 `email` varchar(64) NOT NULL DEFAULT '',
 `access_token` varchar(64) NOT NULL DEFAULT '',
