@@ -20,6 +20,21 @@
   version = "v1.3"
 
 [[projects]]
+  name = "github.com/jinzhu/gorm"
+  packages = [
+    ".",
+    "dialects/mysql"
+  ]
+  revision = "6ed508ec6a4ecb3531899a69cbc746ccf65a4166"
+  version = "v1.9.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/jinzhu/inflection"
+  packages = ["."]
+  revision = "04140366298a54a039076d798123ffa108fff46c"
+
+[[projects]]
   name = "github.com/labstack/echo"
   packages = [
     ".",
@@ -68,7 +83,9 @@
   name = "golang.org/x/crypto"
   packages = [
     "acme",
-    "acme/autocert"
+    "acme/autocert",
+    "bcrypt",
+    "blowfish"
   ]
   revision = "91a49db82a88618983a78a06c1cbd4e00ab749ab"
 
@@ -81,6 +98,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c78e7752fdbb45ae909fdc9c997788fc467b90e52e633de8cfcd991f3e6f73df"
+  inputs-digest = "46b248a0efeb7f39aca25b23c28d07853beb9c7d293e48747278e97259cc159d"
   solver-name = "gps-cdcl"
   solver-version = 1
