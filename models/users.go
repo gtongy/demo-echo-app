@@ -15,8 +15,10 @@ type User struct {
 	UpdatedAt time.Time
 }
 
-type UserCollection struct {
-	users []User
+func (u *User) Auth(password string) error {
+	hash := u.Password
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err
 }
 
 func PasswordHash(password string) string {

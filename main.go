@@ -35,6 +35,7 @@ func main() {
 	e.GET("/login", handlers.User.Login)
 	e.GET("/register", handlers.User.Register)
 	e.POST("/user/create", handlers.User.Create)
+	e.POST("/auth", handlers.User.Auth)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
