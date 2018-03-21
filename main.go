@@ -5,6 +5,8 @@ import (
 	"io"
 
 	"github.com/gtongy/demo-echo-app/handlers"
+	"github.com/gtongy/demo-echo-app/redis"
+	"github.com/labstack/echo-contrib/session"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
@@ -29,6 +31,9 @@ func main() {
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	store := redis.Init()
+	e.Use(session.Middleware(store))
 
 	e.Static("/css", "./assets/css")
 
