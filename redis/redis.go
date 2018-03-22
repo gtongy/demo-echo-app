@@ -1,7 +1,16 @@
 package redis
 
 import (
-	redistore "gopkg.in/boj/redistore.v1"
+	"net/http"
+
+	"github.com/boj/redistore"
+	"github.com/gorilla/sessions"
+)
+
+const keySession = "sessions"
+
+var (
+	store *redistore.RediStore
 )
 
 func Init() *redistore.RediStore {
@@ -10,4 +19,12 @@ func Init() *redistore.RediStore {
 		panic(err)
 	}
 	return store
+}
+
+func GetSession(h *http.Request) *sessions.Session {
+	session, err := store.Get(h, keySession)
+	if err != nil {
+		panic(err)
+	}
+	return session
 }

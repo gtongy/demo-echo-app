@@ -6,6 +6,7 @@ import (
 	"github.com/gtongy/demo-echo-app/models"
 	"github.com/gtongy/demo-echo-app/mysql"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo-contrib/session"
 )
 
 var User user
@@ -50,9 +51,14 @@ func (u *user) Auth(c echo.Context) error {
 	defer db.Close()
 	db.Where("email = ?", user.Email).First(&user)
 	err := user.Auth(password)
+
 	if err != nil {
 		return c.Redirect(http.StatusMovedPermanently, "/login")
 	}
+	sess, _ := session.Get("session", c)
+	sess.Values["userId"] = user.ID
+	sess.Save(c.Request(), c.Response())
+
 	// TODO: make home template and replace redirect
 	return c.Redirect(http.StatusMovedPermanently, "/register")
 }
