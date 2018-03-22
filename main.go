@@ -5,9 +5,11 @@ import (
 	"io"
 
 	"github.com/gtongy/demo-echo-app/handlers"
+	"github.com/gtongy/demo-echo-app/redis"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/middleware"
 )
 
@@ -30,11 +32,16 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	store := redis.Init()
+
+	e.Use(session.Middleware(store))
+
 	e.Static("/css", "./assets/css")
 
 	e.GET("/login", handlers.User.Login)
 	e.GET("/register", handlers.User.Register)
 	e.POST("/user/create", handlers.User.Create)
+	e.POST("/auth", handlers.User.Auth)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
