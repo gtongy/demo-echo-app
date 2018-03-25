@@ -1,16 +1,16 @@
 package redis
 
 import (
-	"net/http"
-
 	"github.com/boj/redistore"
 	"github.com/gorilla/sessions"
+	"github.com/labstack/echo"
+	"github.com/labstack/echo-contrib/session"
 )
 
-const keySession = "sessions"
+const keySession = "session"
 
 var (
-	store *redistore.RediStore
+	store *sessions.Session
 )
 
 func Init() *redistore.RediStore {
@@ -21,10 +21,16 @@ func Init() *redistore.RediStore {
 	return store
 }
 
-func GetSession(h *http.Request) *sessions.Session {
-	session, err := store.Get(h, keySession)
+func GetSession(c echo.Context) *sessions.Session {
+	store, err := session.Get(keySession, c)
 	if err != nil {
 		panic(err)
 	}
-	return session
+	return store
+}
+
+func GetCurrentUser(c echo.Context) interface{} {
+	session := GetSession(c)
+	id := session.Values["userId"]
+	return id
 }
