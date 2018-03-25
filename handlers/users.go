@@ -5,6 +5,7 @@ import (
 
 	"github.com/gtongy/demo-echo-app/models"
 	"github.com/gtongy/demo-echo-app/mysql"
+	"github.com/gtongy/demo-echo-app/redis"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo-contrib/session"
 )
@@ -12,6 +13,18 @@ import (
 var User user
 
 type user struct{}
+
+func (u *user) Top(c echo.Context) error {
+	sess, _ := session.Get("session", c)
+	// TODO: change type pushy.
+	user := models.User{
+		ID: sess.Values["userId"].(uint),
+	}
+	user.Get()
+	return c.Render(http.StatusOK, "content", map[string]interface{}{
+		"user": user,
+	})
+}
 
 func (u *user) Login(c echo.Context) error {
 	return c.Render(http.StatusOK, "form", map[string]interface{}{})
@@ -55,10 +68,9 @@ func (u *user) Auth(c echo.Context) error {
 	if err != nil {
 		return c.Redirect(http.StatusMovedPermanently, "/login")
 	}
-	sess, _ := session.Get("session", c)
-	sess.Values["userId"] = user.ID
-	sess.Save(c.Request(), c.Response())
+	session := redis.GetSession(c)
+	session.Values["userId"] = user.ID
+	session.Save(c.Request(), c.Response())
 
-	// TODO: make home template and replace redirect
-	return c.Redirect(http.StatusMovedPermanently, "/register")
+	return c.Redirect(http.StatusMovedPermanently, "/")
 }

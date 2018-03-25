@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/gtongy/demo-echo-app/mysql"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -27,4 +28,9 @@ func PasswordHash(password string) string {
 		fmt.Println(err)
 	}
 	return string(hash)
+}
+
+func (user *User) Get() {
+	db := mysql.GetDB()
+	db.Find(&user)
 }

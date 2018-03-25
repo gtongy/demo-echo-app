@@ -38,6 +38,7 @@ func main() {
 
 	e.Static("/css", "./assets/css")
 
+	e.GET("/", handlers.User.Top)
 	e.GET("/login", handlers.User.Login)
 	e.GET("/register", handlers.User.Register)
 	e.POST("/user/create", handlers.User.Create)
