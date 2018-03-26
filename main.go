@@ -6,6 +6,7 @@ import (
 
 	"github.com/gtongy/demo-echo-app/handlers"
 	"github.com/gtongy/demo-echo-app/redis"
+	"github.com/gtongy/demo-echo-app/validator"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
@@ -28,6 +29,7 @@ func main() {
 		templates: template.Must(template.ParseGlob("templates/*.tpl")),
 	}
 	e.Renderer = renderer
+	e.Validator = &validator.CustomValidator{Validator: validator.New()}
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())

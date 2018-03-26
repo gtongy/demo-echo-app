@@ -16,17 +16,32 @@
 [[projects]]
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
-  revision = "dbeaa9332f19a944acb5736b4456cfcc02140e29"
-  version = "v3.1.0"
+  revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
+  version = "v3.2.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/garyburd/redigo"
   packages = [
     "internal",
     "redis"
   ]
-  revision = "e8e59ed1cd89662b75af5d1109e39e5dc148cc00"
+  revision = "a69d19351219b6dd56f274f96d85a7014a2ec34e"
+  version = "v1.6.0"
+
+[[projects]]
+  name = "github.com/go-playground/locales"
+  packages = [
+    ".",
+    "currency"
+  ]
+  revision = "f63010822830b6fe52288ee52d5a1151088ce039"
+  version = "v0.12.1"
+
+[[projects]]
+  name = "github.com/go-playground/universal-translator"
+  packages = ["."]
+  revision = "b32fa301c9fe55953584134cb6853a13c87ec0a1"
+  version = "v0.16.0"
 
 [[projects]]
   name = "github.com/go-sql-driver/mysql"
@@ -73,8 +88,8 @@
     ".",
     "middleware"
   ]
-  revision = "b338075a0fc6e1a0683dbf03d09b4957a289e26f"
-  version = "3.2.6"
+  revision = "a5d81b8d4a627f3f49dcb3164ef2bb5239682227"
+  version = "3.3.4"
 
 [[projects]]
   name = "github.com/labstack/echo-contrib"
@@ -90,8 +105,8 @@
     "log",
     "random"
   ]
-  revision = "57409ada9da0f2afad6664c49502f8c50fbd8476"
-  version = "0.2.3"
+  revision = "6fe1405d73ec4bd4cd8a4ac8e2a2b2bf95d03954"
+  version = "0.2.4"
 
 [[projects]]
   name = "github.com/mattn/go-colorable"
@@ -126,17 +141,23 @@
     "bcrypt",
     "blowfish"
   ]
-  revision = "91a49db82a88618983a78a06c1cbd4e00ab749ab"
+  revision = "88942b9c40a4c9d203b82b3731787b672d6e809b"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "dd2ff4accc098aceecb86b36eaa7829b2a17b1c9"
+  revision = "91ee8cde435411ca3f1cd365e8f20131aed4d0a1"
+
+[[projects]]
+  name = "gopkg.in/go-playground/validator.v9"
+  packages = ["."]
+  revision = "8ce234ff024d85b3848e485decba806385d6e276"
+  version = "v9.13.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "90275f4fc2f84afbc60cbe8af4842cc2f68fe2bf371eb3eae852871230da2239"
+  inputs-digest = "77ca51707f30b34eafe01e08e84ddb6b48af1988b571c74161e43191860bcc18"
   solver-name = "gps-cdcl"
   solver-version = 1

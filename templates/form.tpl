@@ -4,6 +4,11 @@
     <div class="row top-buffer">
         <div class="col-md-12">
             <div class="col-md-6 offset-md-3">
+                    {{ if .error }}
+                        <div class="alert alert-warning" role="alert">
+                            {{ .error }}
+                        </div>
+                    {{end}}
                 <div class="modal-content">
                     {{ if .new }}
                     <form action="/user/create" method="post" class="form">
