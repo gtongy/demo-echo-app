@@ -17,7 +17,7 @@ type user struct{}
 func (u *user) Top(c echo.Context) error {
 	sess, _ := session.Get("session", c)
 	// TODO: change type pushy.
-	user := models.User{
+	user := &models.User{
 		ID: sess.Values["userId"].(uint),
 	}
 	user.Get()
@@ -39,14 +39,19 @@ func (u *user) Register(c echo.Context) error {
 func (u *user) Create(c echo.Context) error {
 	email := c.FormValue("email")
 	password := models.PasswordHash(c.FormValue("password"))
-	user := models.User{
+	user := &models.User{
 		Email:    email,
 		Password: password,
+	}
+	if err := c.Validate(user); err != nil {
+		return c.Render(http.StatusOK, "form", map[string]interface{}{
+			"new":   true,
+			"error": err,
+		})
 	}
 	if err := c.Bind(user); err != nil {
 		return err
 	}
-
 	db := mysql.GetDB()
 	defer db.Close()
 	db.Create(&user)
@@ -56,9 +61,14 @@ func (u *user) Create(c echo.Context) error {
 func (u *user) Auth(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
-	user := models.User{
+	user := &models.User{
 		Email:    email,
 		Password: password,
+	}
+	if err := c.Validate(user); err != nil {
+		return c.Render(http.StatusOK, "form", map[string]interface{}{
+			"error": err,
+		})
 	}
 	db := mysql.GetDB()
 	defer db.Close()

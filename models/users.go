@@ -9,9 +9,9 @@ import (
 )
 
 type User struct {
-	ID        uint `gorm:"primary_key"`
-	Email     string
-	Password  string
+	ID        uint   `gorm:"primary_key"`
+	Email     string `validate:"required,email"`
+	Password  string `validate:"required"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
