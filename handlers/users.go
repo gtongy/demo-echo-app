@@ -61,7 +61,7 @@ func (u *user) Create(c echo.Context) error {
 func (u *user) Auth(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
-	user := models.User{
+	user := &models.User{
 		Email:    email,
 		Password: password,
 	}
