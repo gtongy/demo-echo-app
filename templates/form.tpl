@@ -39,6 +39,7 @@
                             <button type="submit" class="btn btn-primary">Login</button>
                             {{end}}
                         </div>
+                        <input type="hidden" name="csrf_token" value="{{ .csrfToken }}">
                     </form>
                 </div>
             </div>
