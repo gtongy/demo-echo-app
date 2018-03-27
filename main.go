@@ -30,11 +30,13 @@ func main() {
 	}
 	e.Renderer = renderer
 	e.Validator = &validator.CustomValidator{Validator: validator.New()}
+	store := redis.Init()
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-
-	store := redis.Init()
+	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+		TokenLookup: "form:csrf",
+	}))
 
 	e.Use(session.Middleware(store))
 

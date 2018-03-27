@@ -15,6 +15,7 @@
                     {{ else }}
                     <form action="/auth" method="post" class="form">
                     {{end}}
+                        <input type="hidden" name="csrf" value="{{ .csrfToken }}">
                         <div class="modal-header">
                             {{ if .new }}
                             <h5 class="modal-title">Register</h5>
