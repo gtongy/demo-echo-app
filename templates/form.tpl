@@ -15,6 +15,7 @@
                     {{ else }}
                     <form action="/auth" method="post" class="form">
                     {{end}}
+                        <input type="hidden" name="csrf" value="{{ .csrfToken }}">
                         <div class="modal-header">
                             {{ if .new }}
                             <h5 class="modal-title">Register</h5>
@@ -39,7 +40,6 @@
                             <button type="submit" class="btn btn-primary">Login</button>
                             {{end}}
                         </div>
-                        <input type="hidden" name="csrf_token" value="{{ .csrfToken }}">
                     </form>
                 </div>
             </div>

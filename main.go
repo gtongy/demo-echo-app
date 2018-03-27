@@ -34,7 +34,10 @@ func main() {
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	e.Use(middleware.CSRF())
+	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+		TokenLookup: "form:csrf",
+	}))
+
 	e.Use(session.Middleware(store))
 
 	e.Static("/css", "./assets/css")
