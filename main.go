@@ -1,22 +1,18 @@
 package main
 
 import (
-	"database/sql"
-	"fmt"
 	"html/template"
 	"io"
 
 	"github.com/gtongy/demo-echo-app/handlers"
+	"github.com/gtongy/demo-echo-app/redis"
+	"github.com/gtongy/demo-echo-app/validator"
 
-	"github.com/BurntSushi/toml"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/middleware"
 )
-
-type Config struct {
-	DataSource string `toml:"dataSource"`
-}
 
 type TemplateRenderer struct {
 	templates *template.Template
@@ -28,32 +24,29 @@ func (t *TemplateRenderer) Render(w io.Writer, name string, data interface{}, c 
 
 func main() {
 	e := echo.New()
-	var config Config
-	_, err := toml.DecodeFile("./config.toml", &config)
-	if err != nil {
-		panic(err)
-	}
-	dataSource := config.DataSource
-	db, err := sql.Open("mysql", dataSource)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
 
 	renderer := &TemplateRenderer{
 		templates: template.Must(template.ParseGlob("templates/*.tpl")),
 	}
 	e.Renderer = renderer
+	e.Validator = &validator.CustomValidator{Validator: validator.New()}
+	store := redis.Init()
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+		TokenLookup: "form:csrf",
+	}))
 
-	e.GET("/tasks", handlers.GetTasks(db))
-	e.GET("/users", handlers.GetUsers(db))
-	e.GET("/", func(c echo.Context) error {
-		return c.Render(http.StatusOK, "content", map[string]interface{}{
-			"name": "Dolly!",
-		})
-	})
+	e.Use(session.Middleware(store))
+
+	e.Static("/css", "./assets/css")
+
+	e.GET("/", handlers.User.Top)
+	e.GET("/login", handlers.User.Login)
+	e.GET("/register", handlers.User.Register)
+	e.POST("/user/create", handlers.User.Create)
+	e.POST("/auth", handlers.User.Auth)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

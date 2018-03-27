@@ -35,11 +35,7 @@
 
 [[constraint]]
   name = "github.com/labstack/echo"
-  version = "3.2.6"
-
-[[constraint]]
-  name = "github.com/gtongy/demo-echo-app"
-  branch = "master"
+  version = "3.3.4"
 
 [prune]
   go-tests = true

@@ -1,38 +1,36 @@
 package models
 
 import (
-	"database/sql"
+	"fmt"
+	"time"
+
+	"github.com/gtongy/demo-echo-app/mysql"
+	"golang.org/x/crypto/bcrypt"
 )
 
-// User is a struct containing User data
 type User struct {
-	ID       int    `json:"id"`
-	Name     string `json:"name"`
-	Password string `json:"password"`
+	ID        uint   `gorm:"primary_key"`
+	Email     string `validate:"required,email"`
+	Password  string `validate:"required"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
-// UserCollection is collection of Users
-type UserCollection struct {
-	Users []User `json:"items"`
+func (u *User) Auth(password string) error {
+	hash := u.Password
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err
 }
 
-// GetUsers from the DB
-func GetUsers(db *sql.DB) UserCollection {
-	sql := "SELECT * FROM users"
-	rows, err := db.Query(sql)
+func PasswordHash(password string) string {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
-	defer rows.Close()
+	return string(hash)
+}
 
-	result := UserCollection{}
-	for rows.Next() {
-		User := User{}
-		scanErr := rows.Scan(&User.ID, &User.Name, &User.Password)
-		if scanErr != nil {
-			panic(scanErr)
-		}
-		result.Users = append(result.Users, User)
-	}
-	return result
+func (user *User) Get() {
+	db := mysql.GetDB()
+	db.Find(&user)
 }
