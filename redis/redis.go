@@ -25,6 +25,12 @@ func GetSession(c echo.Context) *sessions.Session {
 	return store
 }
 
+func Delete(c echo.Context) {
+	session := GetSession(c)
+	session.Options = &sessions.Options{MaxAge: -1, Path: "/"}
+	session.Save(c.Request(), c.Response())
+}
+
 func GetCurrentUser(c echo.Context) interface{} {
 	store := GetSession(c)
 	id := store.Values["userId"]

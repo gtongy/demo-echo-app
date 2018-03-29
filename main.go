@@ -44,6 +44,7 @@ func main() {
 
 	e.GET("/", handlers.User.Top)
 	e.GET("/login", handlers.User.Login)
+	e.GET("/logout", handlers.User.Logout)
 	e.GET("/register", handlers.User.Register)
 	e.POST("/user/create", handlers.User.Create)
 	e.POST("/auth", handlers.User.Auth)

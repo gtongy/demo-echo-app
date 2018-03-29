@@ -17,8 +17,12 @@ type user struct{}
 
 func (u *user) Top(c echo.Context) error {
 	sess, _ := session.Get("session", c)
+	userID := sess.Values["userId"]
+	if userID == nil {
+		return c.Render(http.StatusOK, "content", map[string]interface{}{})
+	}
 	user := &models.User{
-		ID: sess.Values["userId"].(uint),
+		ID: userID.(uint),
 	}
 	user.Get()
 	return c.Render(http.StatusOK, "content", map[string]interface{}{
@@ -27,6 +31,14 @@ func (u *user) Top(c echo.Context) error {
 }
 
 func (u *user) Login(c echo.Context) error {
+	csrfToken := c.Get(middleware.DefaultCSRFConfig.ContextKey).(string)
+	return c.Render(http.StatusOK, "form", map[string]interface{}{
+		"csrfToken": csrfToken,
+	})
+}
+
+func (u *user) Logout(c echo.Context) error {
+	redis.Delete(c)
 	csrfToken := c.Get(middleware.DefaultCSRFConfig.ContextKey).(string)
 	return c.Render(http.StatusOK, "form", map[string]interface{}{
 		"csrfToken": csrfToken,
