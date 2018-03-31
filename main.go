@@ -49,7 +49,12 @@ func main() {
 	e.POST("/user/create", handlers.User.Create)
 	e.POST("/auth", handlers.User.Auth)
 
-	e.GET("/v1/tasks/", handlers.Task.Get)
+	api := echo.New()
 
-	e.Logger.Fatal(e.Start(":1323"))
+	api.Use(middleware.Logger())
+	api.Use(middleware.Recover())
+	api.GET("/v1/tasks/", handlers.Task.Get)
+	api.POST("/v1/tasks/", handlers.Task.Create)
+
+	api.Logger.Fatal(api.Start(":1323"))
 }
