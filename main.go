@@ -49,5 +49,7 @@ func main() {
 	e.POST("/user/create", handlers.User.Create)
 	e.POST("/auth", handlers.User.Auth)
 
+	e.GET("/v1/tasks/", handlers.Task.Get)
+
 	e.Logger.Fatal(e.Start(":1323"))
 }
