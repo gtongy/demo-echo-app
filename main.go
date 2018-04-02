@@ -53,8 +53,11 @@ func main() {
 
 	api.Use(middleware.Logger())
 	api.Use(middleware.Recover())
+	api.Use(middleware.KeyAuth(handlers.User.APIKeyAuth))
+
 	api.GET("/v1/tasks/", handlers.Task.Get)
 	api.POST("/v1/tasks/", handlers.Task.Create)
 
+	e.Logger.Fatal(e.Start(":1323"))
 	api.Logger.Fatal(api.Start(":1323"))
 }

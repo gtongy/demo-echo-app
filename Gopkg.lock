@@ -121,6 +121,12 @@
   version = "v0.0.3"
 
 [[projects]]
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/valyala/bytebufferpool"
   packages = ["."]
@@ -158,6 +164,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "77ca51707f30b34eafe01e08e84ddb6b48af1988b571c74161e43191860bcc18"
+  inputs-digest = "60c322df8bb835df5cef752eaa74132ca36c8b6f17cb8f9eee7701a90f145c83"
   solver-name = "gps-cdcl"
   solver-version = 1

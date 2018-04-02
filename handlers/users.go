@@ -75,6 +75,7 @@ func (u *user) Create(c echo.Context) error {
 
 	db := mysql.GetDB()
 	defer db.Close()
+	user.SetToken()
 	db.Create(&user)
 	return c.Redirect(http.StatusMovedPermanently, "/login")
 }
@@ -108,4 +109,8 @@ func (u *user) Auth(c echo.Context) error {
 	session.Save(c.Request(), c.Response())
 
 	return c.Redirect(http.StatusMovedPermanently, "/")
+}
+
+func (u *user) APIKeyAuth(key string, c echo.Context) (bool, error) {
+	return key == "valid-key", nil
 }
