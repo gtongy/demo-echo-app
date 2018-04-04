@@ -32,21 +32,35 @@ func main() {
 	e.Validator = &validator.CustomValidator{Validator: validator.New()}
 	store := redis.Init()
 
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+	app := e.Group("")
+	app.Use(middleware.Logger())
+	app.Use(middleware.Recover())
+	app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 		TokenLookup: "form:csrf",
 	}))
 
-	e.Use(session.Middleware(store))
+	app.Use(session.Middleware(store))
 
-	e.Static("/css", "./assets/css")
+	app.Static("/css", "./assets/css")
 
-	e.GET("/", handlers.User.Top)
-	e.GET("/login", handlers.User.Login)
-	e.GET("/register", handlers.User.Register)
-	e.POST("/user/create", handlers.User.Create)
-	e.POST("/auth", handlers.User.Auth)
+	app.GET("/", handlers.User.Top)
+	app.GET("/login", handlers.User.Login)
+	app.GET("/logout", handlers.User.Logout)
+	app.GET("/register", handlers.User.Register)
+	app.POST("/user/create", handlers.User.Create)
+	app.POST("/auth", handlers.User.Auth)
+
+	api := e.Group("/api/v1")
+
+	api.Use(middleware.Logger())
+	api.Use(middleware.Recover())
+	api.Use(middleware.KeyAuthWithConfig(middleware.KeyAuthConfig{
+		KeyLookup: "header:DEMO-ECHO-TOKEN",
+		Validator: validator.ApiAccessTokenValidator,
+	}))
+
+	api.GET("/tasks", handlers.Task.Get)
+	api.POST("/tasks", handlers.Task.Create)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
