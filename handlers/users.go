@@ -110,7 +110,3 @@ func (u *user) Auth(c echo.Context) error {
 
 	return c.Redirect(http.StatusMovedPermanently, "/")
 }
-
-func (u *user) APIKeyAuth(key string, c echo.Context) (bool, error) {
-	return key == "valid-key", nil
-}

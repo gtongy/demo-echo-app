@@ -54,6 +54,10 @@ func main() {
 
 	api.Use(middleware.Logger())
 	api.Use(middleware.Recover())
+	api.Use(middleware.KeyAuthWithConfig(middleware.KeyAuthConfig{
+		KeyLookup: "header:DEMO-ECHO-TOKEN",
+		Validator: validator.ApiAccessTokenValidator,
+	}))
 
 	api.GET("/tasks", handlers.Task.Get)
 	api.POST("/tasks", handlers.Task.Create)
