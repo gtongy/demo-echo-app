@@ -22,6 +22,7 @@ func New() *validator.Validate {
 func ApiAccessTokenValidator(key string, c echo.Context) (bool, error) {
 	var user models.User
 	db := mysql.GetDB()
+	defer db.Close()
 	err := db.Where("access_token = ?", key).Find(&user).Error
 	if err != nil {
 		return false, nil
