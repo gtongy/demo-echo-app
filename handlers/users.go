@@ -75,6 +75,7 @@ func (u *user) Create(c echo.Context) error {
 
 	db := mysql.GetDB()
 	defer db.Close()
+	user.SetToken()
 	db.Create(&user)
 	return c.Redirect(http.StatusMovedPermanently, "/login")
 }

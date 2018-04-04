@@ -6,7 +6,7 @@
         <div class="alert alert-success" role="alert">
             <div>ID: {{ .user.ID }}</div>
             <div>Email: {{ .user.Email }}</div>
-            <div>Password: {{ .user.Password }}</div>
+            <div>Token: {{ .user.AccessToken }}</div>
         </div>
         <a href="/logout">logout</a>
     {{ else }}
