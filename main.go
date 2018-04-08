@@ -30,11 +30,12 @@ func main() {
 	}
 	e.Renderer = renderer
 	e.Validator = &validator.CustomValidator{Validator: validator.New()}
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
 	store := redis.Init()
 
 	app := e.Group("")
-	app.Use(middleware.Logger())
-	app.Use(middleware.Recover())
 	app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
 		TokenLookup: "form:csrf",
 	}))
@@ -51,9 +52,6 @@ func main() {
 	app.POST("/auth", handlers.User.Auth)
 
 	api := e.Group("/api/v1")
-
-	api.Use(middleware.Logger())
-	api.Use(middleware.Recover())
 	api.Use(middleware.KeyAuthWithConfig(middleware.KeyAuthConfig{
 		KeyLookup: "header:DEMO-ECHO-TOKEN",
 		Validator: validator.ApiAccessTokenValidator,

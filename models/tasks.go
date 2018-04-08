@@ -6,3 +6,7 @@ type Task struct {
 	Title  string `json:"title"`
 	UserID uint   `json:"user_id"`
 }
+
+type Tasks struct {
+	Tasks []Task `json:"tasks"`
+}
