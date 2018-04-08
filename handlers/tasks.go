@@ -17,7 +17,8 @@ func (t *task) Get(c echo.Context) error {
 	db := mysql.GetDB()
 	defer db.Close()
 	db.Find(&task)
-	return c.JSON(http.StatusOK, task)
+	tasks := models.Tasks{Tasks: task}
+	return c.JSON(http.StatusOK, tasks)
 }
 
 func (t *task) Create(c echo.Context) error {
