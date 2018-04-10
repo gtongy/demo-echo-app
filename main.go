@@ -3,6 +3,7 @@ package main
 import (
 	"html/template"
 	"io"
+	"os"
 
 	"github.com/gtongy/demo-echo-app/handlers"
 	"github.com/gtongy/demo-echo-app/redis"
@@ -60,5 +61,14 @@ func main() {
 	api.GET("/tasks", handlers.Task.Get)
 	api.POST("/tasks", handlers.Task.Create)
 
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":" + port()))
+}
+
+func port() string {
+	defaultPort := "1323"
+	envPort := os.Getenv("PORT")
+	if envPort == "" {
+		return defaultPort
+	}
+	return envPort
 }
