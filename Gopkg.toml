@@ -37,6 +37,9 @@
   name = "github.com/labstack/echo"
   version = "3.3.4"
 
+[metadata.heroku]
+root-package = "github.com/gtongy/demo-echo-app"
+
 [prune]
   go-tests = true
   unused-packages = true
