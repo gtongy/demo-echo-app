@@ -1,6 +1,9 @@
 package validator
 
 import (
+	"net/http"
+
+	"github.com/gtongy/demo-echo-app/errors"
 	"github.com/gtongy/demo-echo-app/models"
 	"github.com/gtongy/demo-echo-app/mysql"
 	"github.com/labstack/echo"
@@ -25,7 +28,7 @@ func ApiAccessTokenValidator(key string, c echo.Context) (bool, error) {
 	defer db.Close()
 	err := db.Where("access_token = ?", key).Find(&user).Error
 	if err != nil {
-		return false, nil
+		return false, errors.APIError.JSONErrorHandler(err, c, http.StatusUnauthorized, "Access token is invalid")
 	}
 	return true, nil
 }

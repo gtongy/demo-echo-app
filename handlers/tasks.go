@@ -14,12 +14,14 @@ var Task task
 type task struct{}
 
 func (t *task) Get(c echo.Context) error {
-	var task []models.Task
+	var tasks []models.Task
 	db := mysql.GetDB()
 	defer db.Close()
-	db.Find(&task)
-	tasks := models.Tasks{Tasks: task}
-	return c.JSON(http.StatusOK, tasks)
+	err := db.Find(&tasks).Error
+	if err != nil {
+		return errors.APIError.JSONErrorHandler(err, c, http.StatusBadRequest, "Tasks are not found")
+	}
+	return c.JSON(http.StatusOK, models.Tasks{Tasks: tasks})
 }
 
 func (t *task) Create(c echo.Context) error {
