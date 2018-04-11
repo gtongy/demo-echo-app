@@ -50,6 +50,15 @@
   version = "v1.3"
 
 [[projects]]
+  name = "github.com/gomodule/redigo"
+  packages = [
+    "internal",
+    "redis"
+  ]
+  revision = "9c11da706d9b7902c6da69c592f75637793fe121"
+  version = "v2.0.0"
+
+[[projects]]
   name = "github.com/gorilla/context"
   packages = ["."]
   revision = "1ea25387ff6f684839d82767c1733ff4d4d15d0a"
@@ -128,6 +137,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/soveran/redisurl"
+  packages = ["."]
+  revision = "eb325bc7a4b8050d2990dc2e5470886486846c69"
+
+[[projects]]
+  branch = "master"
   name = "github.com/valyala/bytebufferpool"
   packages = ["."]
   revision = "e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7"
@@ -164,6 +179,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "60c322df8bb835df5cef752eaa74132ca36c8b6f17cb8f9eee7701a90f145c83"
+  inputs-digest = "425c9f91cfeb0a60887bfc927c5c8c0a0f474977f8d2d7713fa02d961f87adc6"
   solver-name = "gps-cdcl"
   solver-version = 1

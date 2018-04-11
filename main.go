@@ -34,7 +34,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	store := redis.Init()
+	store := redis.GetStore()
 
 	app := e.Group("")
 	app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
