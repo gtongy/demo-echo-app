@@ -1,16 +1,34 @@
 package redis
 
 import (
+	"os"
+
 	"github.com/boj/redistore"
+	"github.com/garyburd/redigo/redis"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo-contrib/session"
+	"github.com/soveran/redisurl"
 )
 
-const keySession = "session"
+const (
+	keySession     = "session"
+	defaultAddress = "tcp://redis:6379"
+)
 
-func Init() *redistore.RediStore {
-	store, err := redistore.NewRediStore(10, "tcp", "redis:6379", "", []byte("secret-key"))
+var (
+	redisPool *redis.Pool
+)
+
+func init() {
+	url := address()
+	redisPool = redis.NewPool(func() (redis.Conn, error) {
+		return redisurl.ConnectToURL(url)
+	}, 10)
+}
+
+func GetStore() *redistore.RediStore {
+	store, err := redistore.NewRediStoreWithPool(redisPool, []byte("secret-key"))
 	if err != nil {
 		panic(err)
 	}
@@ -35,4 +53,12 @@ func GetCurrentUser(c echo.Context) interface{} {
 	store := GetSession(c)
 	id := store.Values["userId"]
 	return id
+}
+
+func address() string {
+	address := os.Getenv("REDISTOGO_URL")
+	if address == "" {
+		return defaultAddress
+	}
+	return address
 }

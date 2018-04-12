@@ -14,7 +14,6 @@ type User struct {
 	Email       string `validate:"required,email"`
 	Password    string `validate:"required"`
 	AccessToken string
-	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
 

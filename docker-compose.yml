@@ -16,7 +16,6 @@ services:
     container_name: mysql
     volumes:
       - ./mysql/data:/var/lib/mysql
-      - ./mysql/init/migration.sh:/migration.sh
     ports:
       - "3306:3306"
     environment:
