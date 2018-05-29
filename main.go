@@ -6,6 +6,8 @@ import (
 	"os"
 
 	"github.com/gtongy/demo-echo-app/handlers"
+	"github.com/gtongy/demo-echo-app/models"
+	"github.com/gtongy/demo-echo-app/mysql"
 	"github.com/gtongy/demo-echo-app/redis"
 	"github.com/gtongy/demo-echo-app/validator"
 
@@ -24,6 +26,7 @@ func (t *TemplateRenderer) Render(w io.Writer, name string, data interface{}, c 
 }
 
 func main() {
+	migrate()
 	e := echo.New()
 
 	renderer := &TemplateRenderer{
@@ -34,7 +37,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	store := redis.Init()
+	store := redis.GetStore()
 
 	app := e.Group("")
 	app.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
@@ -71,4 +74,9 @@ func port() string {
 		return defaultPort
 	}
 	return envPort
+}
+
+func migrate() {
+	db := mysql.GetDB()
+	db.AutoMigrate(models.User{}, models.Task{})
 }
